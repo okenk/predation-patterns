@@ -1,0 +1,2 @@
+load("/Users/okenk/Dropbox/Chapter2/R/predation_dfs.RData")
+ls()

@@ -1,0 +1,76 @@
+---
+title: Quantifying the effect of predation on prey productivity across species and
+  ecosystems
+csl: ecology.csl
+fig_caption: yes
+output: 
+  pdf_document:
+    fig_caption: yes
+bibliography: MyLibrary.bib
+---
+```{r set_workspace, echo=FALSE, include=FALSE, message=FALSE, warning=FALSE}
+setwd('~/Dropbox/chapter2/')
+source('R/tests_etc.R')
+source("R/functions.R")
+require(ggplot2)
+require(xtable)
+require(knitr)
+opts_chunk$set(dev = 'pdf')
+```
+
+## Background and questions
+
+There is significant debate in the scientific community regarding the pervasiveness of top-down effects in coastal marine ecosystems, and on fish in particular. Some ecological theories predict that complex speciose food webs with multiple weak trophic linkages, like the food webs found on continental shelves, are buffered from dramatic trophic cascades driven by changing predator abundances [@strong_are_1992]. This is partly because species are subject to a diverse assemblage of predators whose dynamics are not synchronized in time, and prey therefore experience a relatively constant rate of predation [@power_top-down_1992]. Diversity is often thought to promote stability in a number of other ecological contexts, as well [e.g., @tilman_biodiversity:_1996; @hilborn_biocomplexity_2003]; recent studies have sought to evaluate this hypothesis by borrowing the idea of portfolio effects from economics [@figge_bio-folio:_2004; @schindler_population_2010; @anderson_ecological_2013]. In the case of marine fisheries, however, heavy fishing pressure has reduced populations of many oceanic predators [@baum_cascading_2009], so that the abundances of different predators within an ecosystem may actually be changing synchronously in response to both fishing and management. In addition, although these ecosystems are diverse, it is possible that one or two species in fact drive the majority of predation mortality. 
+
+Any examination of productivity in exploited coastal marine ecosystems must acknowledge the underlying role of the environment in regulating population dynamics [@vert-pre_frequency_2013; @szuwalski_examining_2014]. Small pelagic fish that are subject to particularly high rates of predation [@pikitch_global_2014] are also among the most sensitive to changing environmental conditions; as a result, density dependent equilibrium-based models often fail [@maccall_short_2009]. However predators do exert an important influence on population dynamics, and are one component among the myriad environmental drivers that govern productivity [@baum_cascading_2009]. Understanding the contributions of both environmental and trophodynamic forces as drivers of productivity remains an important question both to better understand marine ecosystems and to develop better practices for ecosystem-based management [@link_synthesizing_2012]. 
+
+*The goal of this work is to determine, across ecosystems, 1) is the variation in the total amount of predation on mid-trophic level fish mediated by a portfolio effect, and if not 2) how does it modulate the extent of environmentally-driven changes in productivity.*
+
+## Proposed approach
+
+First, we will use a combination of published food web models coupled with surveys and stock assessment abundance information from the CAMEO database to identify important predators and evaluate the “predator field,” which I define as an index of predation mortality from a suite of predator species that changes through time. Second, we will test whether the predator field is more or less variable than might be expected were it composed of a single species. Third, we will develop methods to identify and quantify the relative contribution of changing predator fields on stock productivity, as measured on top of a low frequency environmental signal.
+
+We have developed a metric to weight the relative importance of each predator species on a given prey species, as most marine fish are subject to predation from a variety of species, each with different diet preferences, consumption rates, and abundances. This metric uses balanced Ecopath models [@christensen_ecopath_1992] that were parameterized for the various ecosystems of interest. Ecopath models assume the following equilibrium holds: 
+$$\frac{dB_i}{dt}=\text{Production}-\text{Fishing}-\sum_{\text{species }j}^{ }\alpha_{i,j} B_i B_j = 0 \quad (1)$$  
+That is, the biomass rate of change for each species, $i$, is zero, and is equal to production minus fishing minus predation. We used the $\alpha$ terms from Eq. 1 as the weighting for each predator species, multiplied these weightings by the time series of abundances of the predators (from the data), and summed over all predators in order to obtain an overall measure of predation that a prey species experiences. We refer to this final quantity as the predator field. To calculate the $\alpha$ terms, first total prey consumed per predator biomass is calculated as the product of the predator consumption to biomass ratio and the fraction of diet that the prey comprises. This quantity is used to calculated $\alpha$ by dividing by the equilibrium prey biomass to obtain the fraction of prey biomass consumed per unit biomass of each predator. Multiplying $\alpha$ by the time series of observed predator biomasses then gives the time series of the predator field, $P_i(t)$, which is the prey consumption rate per prey biomass:
+$$P_i(t)=\sum_{\text{species }j}^{ }\alpha_{i,j} B_j(t). \quad (2)$$
+When Ecopath models divided the prey species into separate compartments for adults and juveniles, we examined predation on juveniles, as previous work [@oken_how_2014] indicated that was where we were most likely to detect an effect of predation. Currently, when species biomass time series are missing data, we fill in the missing value with the mean biomass over the time series, but a more realistic method will be used in the future.
+
+We will measure portfolio effects to assess whether the predator field is less variable than one would expect it to be were it a single predator species exerting the same amount of predation pressure. There are a number of possible methods to calculate portfolio effects [@anderson_ecological_2013], the crudest of which is to compare the coefficient of variation (CV) of the entire predator field to the average CV of each individual predator signal [@figge_bio-folio:_2004]. However, more complicated versions exist [e.g., @thibaut_understanding_2013]. We also note here the limitation that biomass time series are not available for every predator species, with the largest gaps for seabirds and marine mammals.
+
+We are exploring potential models to assess how predation mediates environmental influences on annual surplus production of prey. The method currently proposed is a hidden markov model (HMM), which has been used to study recruitment regimes of forage fish [@munch_bayesian_2009]. HMMs assume that there is an underlying unobserved state of the system, or a regime, that can change on longer time-scales. In this case the regime governs the overall level of productivity. On top of the unobserved regime is an observed process that can depend on explanatory variables, in addition to the underlying state: population productivity will depend on standing biomass, and we will test whether it also depends on the predator field. This is thought to be a good model because mid-trophic level fish, and particularly forage fish, undergo significant low-frequency shifts in productivity over time, and previous work [@oken_how_2014] found that simple surplus production models with time-invariant parameters are often ineffective at detecting effects of predation.
+
+## Current progress
+
+We have quantified the predator field for all forage fish species, as well as pleuronectids and gadids classified as “small” in the CAMEO database (Fig. 1). We have done this in most ecosystems, but still need to collect food web information for the Gulf of Maine/Georges Bank [@link_documentation_2006], Southern Gulf of St. Lawrence [@morisette_data_2003], and Eastern Bering Sea [@aydin_comparison_2002]. Currently results for the Southern Gulf of St. Lawrence are based off of a model for the Northern Gulf. Visual inspection of these predator fields indicates that the predator field is quite variable, and the hypothesis that oceanic ecosystems have weak top-down control due to a buffered predation mortality rate does not seem supported (Fig. 1). The portfolio effects, however, do show that most predator fields are less variable than their individual parts (Table 1). There was generally not an immediately apparent effect of predation on surplus production of most fish stocks, though there were several exceptions (Table 1, Fig. 2). This result caused us to rethink our approach, and we are now hoping to model the effect of predation on top of prey productivity that is environmentally regulated. 
+
+```{r fig_1, echo=FALSE, include=TRUE, fig.height=10, fig.width=17, fig.cap='Time series of predator field composition by prey species'}
+plot.data <- group_by(all.regions.byspp, region, prey.spp, species.combo, year) %.% summarize(pred.signal = sum(pred.signal)) %.% filter(region!='GoA' | year>=1984 | prey.spp!='Yellowfin sole') 
+ggplot(plot.data, aes(x=year, y=pred.signal, fill=species.combo)) + geom_area(position='stack') +
+  facet_wrap(~region + prey.spp, scales='free_y') + theme(text=element_text(size=20)) + ylab('Predator field') + xlab('Year')
+```
+
+```{r fig_2, echo=FALSE, include=TRUE, fig.height=10, fig.width=15, warning=FALSE, fig.cap='Prey surplus production versus total predator field. Grey value in upper-right corner is the P-value from the predation term in the surplus production model. An asterisk (*) next to the P-value indicates statistical significance (i.e., P < 0.05).'}
+number_ticks <- function(n) {function(limits) pretty(limits, n)}
+pred.plot <- ggplot(pred.ts.data) + aes(x = tot.pred) + geom_point() + facet_wrap(~region+prey.spp, scales='free') +
+  theme(text=element_text(size=20)) + scale_x_continuous(breaks=number_ticks(3))
+pred.plot + aes(y=sp) + geom_text(data=pred.test, col='grey40', aes(label=paste(round(sp.mod.pval, 4), ifelse(sp.mod.pval<.05, '*', ''))),
+                                  x=Inf, y=Inf, vjust=1.2, hjust=1) + xlab('Predator field') + ylab('Surplus production')
+```
+
+```{r table_1, echo=FALSE, results='asis'}
+options(xtable.comment = FALSE)
+to.save <- select(pred.test, Region = region, Prey = prey.spp, 'Predation P-value' = sp.mod.pval, 'Portfolio effect' = port.effect) %.% 
+  xtable(digits = c(0, 0, 0, 4, 2), caption = 'Table 1  Predation term P-value from surplus production model and predator field portfolio effect')
+print.xtable(to.save, type='latex', include.rownames = FALSE)
+```
+
+## Next steps
+* Calculate predator fields for the Southern Gulf of St. Lawrence using correct model, the Gulf of Maine, Georges Bank, and the Eastern Bering Sea
+* Estimate relationship between surplus production and predator field using hidden Markov model
+* Finalize prey species to include-- eliminate prey species where time series are stock assessment model outputs, since those time series are generated assuming constant mortality
+* Decide on better method for filling in missing data points in time series. (Current method is really a placeholder.)
+* Think about results more carefully, their implications for both ecology and management, etc.
+
+# References
+

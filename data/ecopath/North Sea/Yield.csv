@@ -1,0 +1,69 @@
+GroupName,Yield,Discard
+Baleen whales,0,0
+Toothed whales,0,0
+Seals,0,0
+Seabirds,0,0
+Juvenile sharks,0,0
+Spurdog,0.00864246,0.000129317
+Large piscivorous sharks,0.00027193,0
+Small sharks,0.000263173,0
+Juvenile rays,0,0
+Starry ray + others,0.006794737,6.40E-09
+Thornback & Spotted ray,0.0052731,0.000317302
+Skate + cuckoo ray,6.84E-05,4.86E-10
+"Juvenile Cod(0-2, 0-40cm)",0,0.05202874
+Cod (adult),0.1184222,0.005903881
+"Juvenile Whiting (0-1, 0-20cm)",0,0.02436402
+Whiting (adult),0.1473683,0.03406739
+"Juvenile Haddock (0-1, 0-20cm)",0,0.06319616
+Haddock (adult),0.0877192,0.007452818
+"Juvenile Saithe (0-3, 0-40cm)",0,0.05526682
+Saithe (adult),0.1174041,2.19E-07
+Hake,0.004131203,0.001164353
+Blue whiting,0.06097475,0
+Norway pout,0.2734578,0
+Other gadoids (large),0.03314035,0.003207701
+Other gadoids (small),0.02832632,0
+Monkfish,0.01934857,0.003151905
+Gurnards,0.000812265,0.007230146
+"Herring (juvenile 0, 1)",0,0.1512489
+Herring (adult),0.8560246,0.003248872
+Sprat,0.174607,0.00740045
+Mackerel,0.345875,0.2068875
+Horse mackerel,0.1723246,1.04E-05
+Sandeels,1.478246,0
+Plaice,0.2762667,0.1048293
+Dab,0.004207981,0.1333856
+Long-rough dab,5.26E-06,0
+Flounder,0.002910526,0.06110898
+Sole,0.06726658,1.43E-08
+Lemon sole,0.01039069,0.004295553
+Witch,0.004084212,0.01225664
+Turbot and brill,0.003557265,0.00071434
+Megrim,0.002295386,0.0011763
+Halibut,0.001326315,0
+Dragonets,0,0
+Catfish (Wolf-fish),0.005324561,0
+Large demersal fish,0.005957894,0.001234904
+Small demersal fish,0.1694005,0
+Miscellaneous filterfeeding pelagic fish,0.01008399,0.00015846
+Squid & cuttlefish,0.001752631,0.000397976
+Fish larvae,0,0
+Carnivorous zooplankton,0,0
+Herbivorous & Omnivorous zooplankton (copepods),0,0
+Gelatinous zooplankton,0,0
+Large crabs,0.01146667,0
+Nephrops,0.01809346,0.001005295
+Epifaunal macrobenthos (mobile grazers),0.006635088,1.74E-05
+Infaunal macrobenthos,0.09079999,0
+Shrimp,0.04344479,0.04992016
+Small mobile epifauna (swarming crustaceans),0,0
+Small infauna (polychaetes),0,0
+Sessile epifauna,0.2110246,0
+Meiofauna,0,0
+"Benthic microflora (incl. Bacteria, protozoa))",0,0
+"Planktonic microflora (incl. Bacteria, protozoa)",0,0
+Phytoplankton,0,0
+Detritus - DOM -water column,0,0
+Detritus - POM - sediment,0,0
+Discards,0,0
