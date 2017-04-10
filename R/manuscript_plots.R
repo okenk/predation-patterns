@@ -1,9 +1,4 @@
-mac.wd <- '~/Dropbox/Chapter2/'
-pc.wd <- 'C:/Users/Kiva Oken/Dropbox/Chapter2/'
-my.wd <- pc.wd
-
-setwd(paste(my.wd, 'R', sep=''))
-source('pred-time-series.R')
+source('R/pred-time-series.R')
 setwd(paste(my.wd, 'R', sep=''))
 source('tests_etc.R')
 setwd(paste(my.wd, 'figs', sep=''))
