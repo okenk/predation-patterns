@@ -2,8 +2,8 @@ mac.wd <- '~/Dropbox/Chapter2/'
 pc.wd <- 'C:/Users/Kiva Oken/Dropbox/Chapter2/'
 my.wd <- pc.wd
 
-source(paste(my.wd, "R/functions.R", sep=''))
-setwd(paste(my.wd, "data", sep=''))
+source("R/functions.R")
+setwd("data")
 grouped <- read.csv('cameo/AGG_TABLE_BY_ALL.csv')
 biomass.only <- read.csv('cameo/BEST_AVAILABLE_BIOMASS.csv')
 require(reshape2)
@@ -101,50 +101,50 @@ forage.fish$SPECIES <- droplevels(forage.fish$SPECIES)
 # sGoSL predation signal ------------------------------------------------
 # start year = 1984
 # need cetacea, grey seals, harp seals
-ecosystem <- 'sGoSL'
-gsl.diet <- get.nat.mort.matrix(ncompartment=30, ecosystem=ecosystem)
-group.info <- read.group.info(ecosystem=ecosystem)
-gsl.mort.nat.init <- gsl.diet * t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
-Cod <- combine.groups(c("Cod > 35 cm","Cod <= 35 cm"), gsl.mort.nat.init, group.info)
-A.Plaice <- combine.groups(c("American plaice <= 35 cm", "American plaice > 35 cm"), gsl.mort.nat.init, group.info)
-gsl.mort.nat <- cbind(gsl.mort.nat.init, Cod, A.Plaice)
-
-sgosl <- subset(biomass.only, REGION=='sGoSL' & YEAR>=1984) # Last time series (dogfish) starts in 1984
-sgosl$SPECIES <- droplevels(sgosl$SPECIES)
-
-sgosl.preds <- list()
-sgosl.preds$'Grey seals' <- fill.pred.list('Grey seal', sgosl)
-sgosl.preds$'Cod' <- fill.pred.list('Atlantic cod', sgosl)
-sgosl.preds$'Greenland halibut' <- fill.pred.list('Greenland halibut', sgosl)
-sgosl.preds$'A.Plaice' <- fill.pred.list('American plaice', sgosl)
-sgosl.preds$Flounders <- fill.pred.list(c('Windowpane', 'Winter flounder', 'Witch flounder', 'Yellowtail flounder'), sgosl)
-sgosl.preds$Skates <- fill.pred.list(c('Smooth skate', 'Thorny skate', 'Winter skate'), sgosl)
-sgosl.preds$Redfish <- fill.pred.list('Atlantic redfishes (NS)', sgosl)
-sgosl.preds$'Large demersal feeders' <- fill.pred.list(c('Haddock', 'White hake', 'Atlantic wolffish', 
-                                                         'Eelpouts (NS)', 'Marlin-spike grenadier', 'Atlantic halibut', 
-                                                         'Longfin hake'), sgosl)
-sgosl.preds$'Small demersal feeders' <- fill.pred.list(c('Cunner', 'Longhorn sculpin', 'Shorthorn sculpin', 'Sea raven', 'Perciformes', 'Scorpaeniformes'), sgosl)
-sgosl.preds$Capelin <- fill.pred.list('Capelin', sgosl)
-sgosl.preds$'Large pelagic feeders' <- fill.pred.list('Spiny dogfish', sgosl)
-sgosl.preds$'Piscivorous small pelagics' <- fill.pred.list('Shortfin squid', sgosl)
-sgosl.preds$'Planktivorous small pelagics' <- fill.pred.list(c('Atlantic herring', 'Alewife', 'Rainbow smelt'), sgosl)
-sgosl.preds$Shrimp <- fill.pred.list('Shrimps (NS)', sgosl)
-sgosl.preds$'Large crustaceans' <- fill.pred.list(c('Snow crab', 'Toad crabs (NS)', 'Rock crab'), sgosl)
-# Shrimp, large crustaceans have crappy time series and don't eat any important prey
-
-
-sgosl.predation <- get.predation(cameo.prey=c('Capelin', 'Small dem. feeders',  
-                                              'Plank. small pelagics', 'Flounders'), 
-                                 ecopath.prey=c('Capelin', 'Small demersal feeders', 
-                                                'Planktivorous small pelagics', 'Flounders'),
-                                 region='sGoSL', pred.list=sgosl.preds, mort.nat=gsl.mort.nat, group.info=group.info)
-
+# ecosystem <- 'sGoSL'
+# gsl.diet <- get.nat.mort.matrix(ncompartment=30, ecosystem=ecosystem)
+# group.info <- read.group.info(ecosystem=ecosystem)
+# gsl.mort.nat.init <- gsl.diet * t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
+# Cod <- combine.groups(c("Cod > 35 cm","Cod <= 35 cm"), gsl.mort.nat.init, group.info)
+# A.Plaice <- combine.groups(c("American plaice <= 35 cm", "American plaice > 35 cm"), gsl.mort.nat.init, group.info)
+# gsl.mort.nat <- cbind(gsl.mort.nat.init, Cod, A.Plaice)
+# 
+# sgosl <- subset(biomass.only, REGION=='sGoSL' & YEAR>=1984) # Last time series (dogfish) starts in 1984
+# sgosl$SPECIES <- droplevels(sgosl$SPECIES)
+# 
+# sgosl.preds <- list()
+# sgosl.preds$'Grey seals' <- fill.pred.list('Grey seal', sgosl)
+# sgosl.preds$'Cod' <- fill.pred.list('Atlantic cod', sgosl)
+# sgosl.preds$'Greenland halibut' <- fill.pred.list('Greenland halibut', sgosl)
+# sgosl.preds$'A.Plaice' <- fill.pred.list('American plaice', sgosl)
+# sgosl.preds$Flounders <- fill.pred.list(c('Windowpane', 'Winter flounder', 'Witch flounder', 'Yellowtail flounder'), sgosl)
+# sgosl.preds$Skates <- fill.pred.list(c('Smooth skate', 'Thorny skate', 'Winter skate'), sgosl)
+# sgosl.preds$Redfish <- fill.pred.list('Atlantic redfishes (NS)', sgosl)
+# sgosl.preds$'Large demersal feeders' <- fill.pred.list(c('Haddock', 'White hake', 'Atlantic wolffish', 
+#                                                          'Eelpouts (NS)', 'Marlin-spike grenadier', 'Atlantic halibut', 
+#                                                          'Longfin hake'), sgosl)
+# sgosl.preds$'Small demersal feeders' <- fill.pred.list(c('Cunner', 'Longhorn sculpin', 'Shorthorn sculpin', 'Sea raven', 'Perciformes', 'Scorpaeniformes'), sgosl)
+# sgosl.preds$Capelin <- fill.pred.list('Capelin', sgosl)
+# sgosl.preds$'Large pelagic feeders' <- fill.pred.list('Spiny dogfish', sgosl)
+# sgosl.preds$'Piscivorous small pelagics' <- fill.pred.list('Shortfin squid', sgosl)
+# sgosl.preds$'Planktivorous small pelagics' <- fill.pred.list(c('Atlantic herring', 'Alewife', 'Rainbow smelt'), sgosl)
+# sgosl.preds$Shrimp <- fill.pred.list('Shrimps (NS)', sgosl)
+# sgosl.preds$'Large crustaceans' <- fill.pred.list(c('Snow crab', 'Toad crabs (NS)', 'Rock crab'), sgosl)
+# # Shrimp, large crustaceans have crappy time series and don't eat any important prey
+# 
+# 
+# sgosl.predation <- get.predation(cameo.prey=c('Capelin', 'Small dem. feeders',  
+#                                               'Plank. small pelagics', 'Flounders'), 
+#                                  ecopath.prey=c('Capelin', 'Small demersal feeders', 
+#                                                 'Planktivorous small pelagics', 'Flounders'),
+#                                  region='sGoSL', pred.list=sgosl.preds, mort.nat=gsl.mort.nat, group.info=group.info)
+# 
 # Baltic predation --------------------------------------------------------
 # Start year = 1973 for all 3 species
 ecosystem <- 'Baltic Sea'
-balt.diet <- get.nat.mort.matrix(ncompartment=16, ecosystem=ecosystem)
+balt.mort.nat.init <- get.nat.mort.matrix(ncompartment=16, ecosystem=ecosystem)
 group.info <- read.group.info(ecosystem=ecosystem)
-balt.mort.nat.init <- balt.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
+# balt.mort.nat.init <- balt.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
 Sprat <- combine.groups(c('Juvenile sprat', 'Adult sprat'), balt.mort.nat.init, group.info)
 Herring <- combine.groups(c('Juvenile herring', 'Adult herring'), balt.mort.nat.init, group.info)
 Cod <- combine.groups(c('Juvenile cod', 'Adult cod'), balt.mort.nat.init, group.info)
@@ -166,9 +166,9 @@ balt.predation <- get.predation(cameo.prey=c('Atlantic herring', 'Sprat'), regio
 # Start year = 1973 (same for all species) 
 #Need: Ceteaceans*, grey seals, seabirds*
 ecosystem <- 'WSS' 
-wss.diet <- get.nat.mort.matrix(ncompartment=62, ecosystem=ecosystem)
+wss.mort.nat.init <- get.nat.mort.matrix(ncompartment=62, ecosystem=ecosystem)
 group.info <- read.group.info(ecosystem=ecosystem)
-wss.mort.nat.init <- wss.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
+# wss.mort.nat.init <- wss.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
 
 
 Cod <- combine.groups(c('Cod <1', 'Cod 1-3', 'Cod 4-6', 'Cod 7+'), wss.mort.nat.init, group.info)
@@ -221,11 +221,11 @@ wss.predation <- get.predation(cameo.prey=c('Atlantic herring', 'Other pelagics'
 # Eastern Scotian Shelf ---------------------------------------------------
 # Start year = 1970 for species of interest, earliest available
 ecosystem <- 'ESS'
-ess.diet <- get.nat.mort.matrix(ncompartment=39, ecosystem=ecosystem)
-rownames(ess.diet)[rownames(ess.diet)=='Juv Cod'] <- 'Juvenile Cod'
-colnames(ess.diet)[colnames(ess.diet)=='Juv Cod'] <- 'Juvenile Cod'
+ess.mort.nat.init <- get.nat.mort.matrix(ncompartment=39, ecosystem=ecosystem)
+rownames(ess.mort.nat.init)[rownames(ess.mort.nat.init)=='Juv Cod'] <- 'Juvenile Cod'
+colnames(ess.mort.nat.init)[colnames(ess.mort.nat.init)=='Juv Cod'] <- 'Juvenile Cod'
 group.info <- read.group.info(ecosystem)
-ess.mort.nat.init <- ess.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
+# ess.mort.nat.init <- ess.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
 
 Cod <- combine.groups(c('Juvenile Cod', 'Adult Cod'), ess.mort.nat.init, group.info)
 Silver.Hake <- combine.groups(c('Silver hake', 'Juv Silver Hake'), ess.mort.nat.init, group.info)
@@ -269,9 +269,9 @@ ess.predation <- get.predation(cameo.prey=c('Northern sand lance', 'Small pelagi
 # Barents Sea -------------------------------------------------------------
 # Start year?
 ecosystem <- 'Barents Sea'
-bs.diet <- get.nat.mort.matrix(ncompartment=41, ecosystem=ecosystem)
+bs.mort.nat.init <- get.nat.mort.matrix(ncompartment=41, ecosystem=ecosystem)
 group.info <- read.group.info(ecosystem=ecosystem)
-bs.mort.nat.init <- bs.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
+# bs.mort.nat.init <- bs.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
 Herring <- combine.groups(c('Juvenile herring (1-3)', 'Adult herring (4+)'), bs.mort.nat.init, group.info)
 Capelin <- combine.groups(c('Juvenile capelin (1)', 'Adult capelin (2+)'), bs.mort.nat.init, group.info)
 Cod <- combine.groups(c('Juvenile cod (1-3)', 'Adult cod (4+)'), bs.mort.nat.init, group.info)
@@ -299,10 +299,10 @@ bs.predation <- get.predation(cameo.prey=c('Atlantic herring', 'Capelin'), regio
 # Gulf of AK --------------------------------------------------------------
 # Start year = 1961 or 1977
 ecosystem <- 'GoA'
-goa.diet <- get.nat.mort.matrix(ncompartment=122, ecosystem=ecosystem)
+goa.mort.nat.init <- get.nat.mort.matrix(ncompartment=122, ecosystem=ecosystem)
 group.info <- read.group.info(ecosystem=ecosystem)
 
-goa.mort.nat.init <- goa.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
+# goa.mort.nat.init <- goa.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
 Pollock <- combine.groups(c('W. Pollock_Juv', 'W. Pollock'), goa.mort.nat.init, group.info)
 Cod <- combine.groups(c('P. Cod_Juv', 'P. Cod'), goa.mort.nat.init, group.info)
 Herring <- combine.groups(c('Herring_Juv', 'Herring'), goa.mort.nat.init, group.info)
@@ -370,9 +370,9 @@ goa.predation <- get.predation(cameo.prey=c('Pacific herring', 'Walleye pollock'
 
 # YEAR should probably start in 1984 (most common start year among spp)
 ecosystem <- 'Hecate Strait'
-hs.diet <- get.nat.mort.matrix(ncompartment=50, ecosystem=ecosystem)
+hs.mort.nat.init <- get.nat.mort.matrix(ncompartment=50, ecosystem=ecosystem)
 group.info <- read.group.info(ecosystem=ecosystem)
-hs.mort.nat.init <- hs.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
+# hs.mort.nat.init <- hs.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
 
 Pollock.comb <- combine.groups(c('Juvenile pollock', 'Pollock'), hs.mort.nat.init, group.info)
 Herring <- combine.groups(c('Juvenile herring', 'Adult herring'), hs.mort.nat.init, group.info)
@@ -429,9 +429,9 @@ ecosystem <- 'North Sea'
 nort <- subset(biomass.only, REGION=='NORT')
 nort$SPECIES <- droplevels(nort$SPECIES)
 
-nort.diet <- get.nat.mort.matrix(ncompartment=68, ecosystem=ecosystem)
+nort.mort.nat.init <- get.nat.mort.matrix(ncompartment=68, ecosystem=ecosystem)
 group.info <- read.group.info(ecosystem=ecosystem)
-nort.mort.nat.init <- nort.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
+# nort.mort.nat.init <- nort.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
 
 Cod <- combine.groups(c('Juvenile Cod(0-2, 0-40cm)', 'Cod (adult)'), nort.mort.nat.init, group.info)
 Herring <- combine.groups(c('Herring (juvenile 0, 1)', 'Herring (adult)'), nort.mort.nat.init,
@@ -466,9 +466,9 @@ ecosystem <- 'GoM'
 gom <- subset(biomass.only, REGION == 'GoM' & YEAR >= 1967)
 gom$SPECIES <- droplevels(gom$SPECIES)
 
-gom.diet <- get.nat.mort.matrix(ncompartment=31, ecosystem=ecosystem)
+gom.mort.nat <- get.nat.mort.matrix(ncompartment=31, ecosystem=ecosystem)
 group.info <- read.group.info(ecosystem=ecosystem)
-gom.mort.nat <- gom.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
+# gom.mort.nat <- gom.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
 
 gom.preds <- list()
 gom.preds$"Demersal benthivores" <- fill.pred.list(c('American plaice', 'Atlantic redfishes (NS)', 
@@ -499,9 +499,9 @@ ecosystem <- 'GB'
 gb <- filter(biomass.only, REGION == ecosystem)
 gb$SPECIES <- droplevels(gb$SPECIES)
 
-gb.diet <- get.nat.mort.matrix(ncompartment=31, ecosystem=ecosystem)
+gb.mort.nat <- get.nat.mort.matrix(ncompartment=31, ecosystem=ecosystem)
 group.info <- read.group.info(ecosystem=ecosystem)
-gb.mort.nat <- gb.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
+# gb.mort.nat <- gb.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
 
 gb.preds <- list()
 gb.preds$"Demersal benthivores" <- fill.pred.list(c('American plaice', 'Atlantic redfishes (NS)', 
@@ -534,9 +534,9 @@ ecosystem <- 'EBS'
 ebs <- subset(biomass.only, REGION == 'EBS' & YEAR >= 1982)
 ebs$SPECIES <- droplevels(ebs$SPECIES)
 
-ebs.diet <- get.nat.mort.matrix(ncompartment=129, ecosystem=ecosystem)
+ebs.mort.nat.init <- get.nat.mort.matrix(ncompartment=129, ecosystem=ecosystem)
 group.info <- read.group.info(ecosystem=ecosystem)
-ebs.mort.nat.init <- ebs.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
+# ebs.mort.nat.init <- ebs.diet*t(aaply(.data=group.info, .margins=1, .fun=expand.group, df=group.info, .expand=FALSE))
 
 Pollock <- combine.groups(c('W. Pollock_Juv', 'W. Pollock'), ebs.mort.nat.init, group.info)
 Cod <- combine.groups(c('P. Cod_Juv', 'P. Cod'), ebs.mort.nat.init, group.info)
